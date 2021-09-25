@@ -12,6 +12,7 @@
 #include <cstdio>
 #include <stdio.h>
 #include <string.h>
+#include <QFileDialog>
 using namespace std;
 int cadena[384];
 bool sel1=false,sel2=false;
@@ -31,8 +32,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_btorigen_clicked()
 {
-
-QString name=ui->txtorigen->text();
+QString name = QFileDialog::getOpenFileName(this,tr("Seleccionar archivo de registro"),"",tr("jpg(*.jpg)")); // Selecciona la ruta
 QImage *img = new QImage(name);
 int x=img->width(), y=img->height();
 int Blue,Green,Red;
@@ -67,22 +67,30 @@ if (x>8&&y>8){
 
     cout<<endl;
     ui->seleccioncorrecta->setText("Archivo seleccionado correctamente");
+    ui->txtorigen->setText(name);
     sel1=true;
 
 
 }else{
     ui->seleccioncorrecta->setText("El archivo no se ha podido seleccionar");
 }
-
+ui->seleccioncorrecta_3->setText("");
 
 }
 
 
 void MainWindow::on_btdestino_clicked()
 {
-name2=ui->txtsalida->text();
+name2 = QFileDialog::getSaveFileName(this,tr("Seleccionar archivo de registro"),"",tr("txt(*.txt)")); // Selecciona la ruta
+
+if (name2.length()==0){
+    ui->seleccioncorrecta_2->setText("El archivo no se ha podido seleccionar");
+}else{
 ui->seleccioncorrecta_2->setText("Archivo seleccionado correctamente");
+ui->txtsalida->setText(name2);
+ui->seleccioncorrecta_3->setText("");
 sel2=true;
+}
 }
 
 
@@ -93,12 +101,38 @@ void MainWindow::on_btempezar_clicked()
     for(int h=0;name2.length()!=h;h++){
         salida[h]=name2.toStdString()[h];
     }
-    fichero = fopen(salida,"w+");
+   /* fichero = fopen(salida,"w+");
     fwrite(cadena, sizeof(int), sizeof(cadena), fichero );
-    fclose(fichero);
+    fclose(fichero);*/
+    fichero = fopen(salida,"w");
+    cout<<cadena[383];
+    for(int m=0;m!=384;m++){
+    fprintf(fichero,"%d",cadena[m]);}
     ui->seleccioncorrecta_3->setText("Archivo generado con exito");
+    name2="";
+    fclose(fichero);
 }else{
     ui->seleccioncorrecta_3->setText("No ha seleccionado alguna ubicacion del archivo");
     }
     }
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    ui->txtorigen->setText("");
+    ui->seleccioncorrecta->setText("");
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    ui->txtsalida->setText("");
+    ui->seleccioncorrecta_2->setText("");
+}
+
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    exit(0);
+}
 
