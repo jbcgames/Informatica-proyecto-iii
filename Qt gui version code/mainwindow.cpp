@@ -39,7 +39,7 @@ int Blue,Green,Red;
 
 //cout<<x<<" "<<y<<endl<<Red<<" "<<Green<<" "<<Blue<<" "<<endl;
 if (x>8&&y>8){
-    int contx=x/16,conty=y/16,salida[8][8][3];
+    int contx=x/16,conty=y/16;
     for(int cont=0,cont2=0,p=0;cont2!=8;contx=contx+(x/8),cont++,p=p+6){
         if (cont==8){
             cont=0;
@@ -52,9 +52,7 @@ if (x>8&&y>8){
         }
         QRgb k=img->pixel(contx,conty);
         Blue=qBlue(k),Green=qGreen(k),Red=qRed(k);
-        salida[cont2][cont][0]=Red;
-        salida[cont2][cont][1]=Green;
-        salida[cont2][cont][2]=Blue;
+
         cadena[p]=Red;
         cadena[p+1]=-2;
         cadena[p+2]=Green;
@@ -95,22 +93,30 @@ sel2=true;
 
 
 void MainWindow::on_btempezar_clicked()
-{if(sel1&&sel2){
-    FILE *fichero;
+{if(sel1&&sel2&&(ui->seleccioncorrecta_3->text()!="Archivo generado con exito")){
+
+     FILE *fichero;
     char salida[name2.length()];
     for(int h=0;name2.length()!=h;h++){
         salida[h]=name2.toStdString()[h];
     }
-   /* fichero = fopen(salida,"w+");
-    fwrite(cadena, sizeof(int), sizeof(cadena), fichero );
-    fclose(fichero);*/
+
     fichero = fopen(salida,"w");
-    cout<<cadena[383];
     for(int m=0;m!=384;m++){
+    if (cadena[m]==-2&&m!=383){
+       fprintf(fichero,",");
+    }else if(m!=383){
     fprintf(fichero,"%d",cadena[m]);}
+    }
     ui->seleccioncorrecta_3->setText("Archivo generado con exito");
     name2="";
     fclose(fichero);
+    sel1=false;
+    sel2=false;
+    ui->txtsalida->setText("");
+    ui->seleccioncorrecta_2->setText("");
+    ui->txtorigen->setText("");
+    ui->seleccioncorrecta->setText("");
 }else{
     ui->seleccioncorrecta_3->setText("No ha seleccionado alguna ubicacion del archivo");
     }
