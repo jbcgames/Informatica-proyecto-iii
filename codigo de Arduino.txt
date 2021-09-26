@@ -1,0 +1,188 @@
+//String cod = "";
+//imagen.toCharArray(hola);
+
+String cod = "47,28,50,73,15,39,44,21,47,141,39,60,61,25,51,23,19,44,19,19,45,51,25,50,35,21,46,89,34,63,93,32,66,91,34,66,121,34,69,51,28,57,30,25,57,35,15,42,32,22,49,60,26,59,105,29,65,132,56,94,171,57,91,96,40,77,33,25,62,41,22,50,39,24,55,52,27,67,53,30,72,56,33,77,68,41,86,203,66,96,84,26,50,76,28,52,142";
+
+//String cod_2 = "60,83,160,64,91,186,81,98,40,8,11,42,14,13,170,75,95,231,46,51,132,49,69,28,15,32,42,22,47,102,30,67,205,59,95,220,68,91,125,38,72,52,20,43,32,15,31,255,255,255,255,255,253,253,253,251,255,254,255,255,254,255,253,253,253,255,254,255,255,255,255,3,3,3,3,3,3,3,3,3,12,3,6,12,3,6,3,3,3,3,3,3,3,3,3";
+
+String cam;
+int valor;
+
+int luz[8][8][3] = {{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+					{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+					{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+					{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+					{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+					{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+					{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}},
+					{{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}}
+};
+
+#include <Adafruit_NeoPixel.h>
+
+#define LED_TIRA_1 2
+#define LED_TIRA_2 3
+#define LED_TIRA_3 4
+#define LED_TIRA_4 5
+#define LED_TIRA_5 6
+#define LED_TIRA_6 7
+#define LED_TIRA_7 8
+#define LED_TIRA_8 9
+#define LED_COUNT  8
+
+Adafruit_NeoPixel strip1(LED_COUNT, LED_TIRA_1, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip2(LED_COUNT, LED_TIRA_2, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip3(LED_COUNT, LED_TIRA_3, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip4(LED_COUNT, LED_TIRA_4, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip5(LED_COUNT, LED_TIRA_5, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip6(LED_COUNT, LED_TIRA_6, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip7(LED_COUNT, LED_TIRA_7, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip8(LED_COUNT, LED_TIRA_8, NEO_GRB + NEO_KHZ800);
+
+Adafruit_NeoPixel Tiras[8] = {strip1,strip2,
+                              strip3,strip4,
+                              strip5,strip6,
+                              strip7,strip8};
+int conti,a,b,c;
+
+void setup()
+{
+  for (int num=0;num<8;num++){
+    Tiras[num].begin();
+    Tiras[num].setBrightness(100);
+  }
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  //Serial.println (cod.length()); 
+  Serial.println("\nIndique que accion desea realizar");
+  Serial.println("\n1) Mostrar todos los led");
+  Serial.println("\n2) Ejecutar prueba de led");
+  Serial.println("\n3) Ejecutar imprecion de imagen pre-indicada\n");
+  while (Serial.available() == 0){}
+  conti = Serial.parseInt();
+  if (conti == 1){
+    for (int num=0;num<8;num++){
+      Tiras[num].setPixelColor(0, 255, 0, 0);
+      Tiras[num].setPixelColor(1, 0, 255, 0);
+      Tiras[num].setPixelColor(2, 0, 0, 255);
+      Tiras[num].setPixelColor(3, 255, 255, 255);
+      Tiras[num].setPixelColor(4, 255, 0, 0);
+      Tiras[num].setPixelColor(5, 0, 255, 0);
+      Tiras[num].setPixelColor(6, 0, 0, 255);
+      Tiras[num].setPixelColor(7, 255, 255, 255);
+      Tiras[num].show();
+    }
+    delay(100000);
+    for (int num=0;num<8;num++){
+      Tiras[num].setPixelColor(0, 0, 0, 0);
+      Tiras[num].setPixelColor(1, 0, 0, 0);
+      Tiras[num].setPixelColor(2, 0, 0, 0);
+      Tiras[num].setPixelColor(3, 0, 0, 0);
+      Tiras[num].setPixelColor(4, 0, 0, 0);
+      Tiras[num].setPixelColor(5, 0, 0, 0);
+      Tiras[num].setPixelColor(6, 0, 0, 0);
+      Tiras[num].setPixelColor(7, 0, 0, 0);
+      Tiras[num].show();
+    }
+  }
+  else if (conti == 2){
+    for (int num=7;num>-1;num--){
+      for (int i=0;i<8;i++){
+        if (i == 0 || i == 4){
+          a = 255;
+          b = 0;
+          c = 0;
+        }
+        else if (i == 1 || i == 5){
+          a = 0;
+          b = 255;
+          c = 0;
+        }
+        else if (i == 2 || i == 6){
+          a = 0;
+          b = 0;
+          c = 255;
+        }
+        else{
+          a = 255;
+          b = 255;
+          c = 255;
+        }
+        Tiras[num].setPixelColor(i, a, b, c);
+      	Tiras[num].show();
+        delay (1000);
+        Tiras[num].setPixelColor(i, 0, 0, 0);
+      	Tiras[num].show();
+      }
+    }
+  }
+  else if (conti == 3){
+    int ava = 0;
+    int ti = 0;
+    int colum = 0;
+    int total = 0;
+    Serial.println(cod.length());
+    while (cod[ava] != '\0'){
+      cam = "";
+      while (cod[ava] != ','){
+        cam = cam + cod[ava];
+        if (cod[ava] == '\0') break;
+        ava ++;
+      }
+      ava ++;
+      //Debemos convertir el numeor de string a int
+      valor = cam.toInt();//funcion que realiza la conversion
+      //Serial.println(valor);
+      luz [ti][colum][total] = valor;
+      total ++;
+      if (total == 3){
+        total = 0;
+        colum ++;
+        if (colum == 8){
+          colum = 0;
+          ti++;
+          if (ti == 8) break;
+        }
+      }
+    }
+    Serial.println(ti);
+    Serial.println(colum);
+    Serial.println(total);
+    /*
+    ava = 0;
+    while (cod_2[ava] != '\0'){
+      cam = "";
+      while (cod_2[ava] != ','){
+        cam = cam + cod_2[ava];
+        if (cod_2[ava] == '\0') break;
+        ava ++;
+      }
+      ava ++;
+      //Debemos convertir el numeor de string a int
+      valor = cam.toInt();//funcion que realiza la conversion
+      //Serial.println(valor);
+      luz [ti][colum][total] = valor;
+      total ++;
+      if (total == 3){
+        total = 0;
+        colum ++;
+        if (colum == 8){
+          colum = 0;
+          ti++;
+          if (ti == 8) break;
+        }
+      }
+    }
+    */
+    delay(5000);
+    for (int num=7;num>-1;num--){
+      for (int i=0;i<8;i++){
+        Tiras[num].setPixelColor(i,luz[num][i][0],luz[num][i][1],luz[num][i][2]);
+      	Tiras[num].show();
+      }
+    }
+  }
+}
