@@ -69,6 +69,32 @@ if (x>8&&y>8){
     sel1=true;
 
 
+}else if(x==8&&y==8){
+    for(int cont=0,cont2=0,p=0;cont2!=8;cont++,p=p+6){
+        if (cont==8){
+            cont=0;
+            cont2++;
+
+        }
+        if(cont2==8){
+            break;
+        }
+        QRgb k=img->pixel(cont,cont2);
+        Blue=qBlue(k),Green=qGreen(k),Red=qRed(k);
+
+        cadena[p]=Red;
+        cadena[p+1]=-2;
+        cadena[p+2]=Green;
+        cadena[p+3]=-2;
+        cadena[p+4]=Blue;
+        cadena[p+5]=-2;
+
+
+    }
+    cout<<endl;
+    ui->seleccioncorrecta->setText("Archivo seleccionado correctamente");
+    ui->txtorigen->setText(name);
+    sel1=true;
 }else{
     ui->seleccioncorrecta->setText("El archivo no se ha podido seleccionar");
 }
